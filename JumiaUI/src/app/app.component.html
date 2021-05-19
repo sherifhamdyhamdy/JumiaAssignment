@@ -1,0 +1,40 @@
+
+<head>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<div style="display: inline-block; width: 100%; margin-top: 10px; margin-bottom: 10px">
+  <div style="float: left">
+    <label for="state_ALL">State :&nbsp;</label>
+    <br>
+    <input type="radio" value="All" name="stateFilter" checked="checked" (change)="onButtonPressed()" [(ngModel)]="stateFilter" />
+    <label for="state_ALL">All:&nbsp;</label>
+    <br>
+    <input type="radio"  value="Valid" name="stateFilter" (change)="onButtonPressed()" [(ngModel)]="stateFilter"/>
+    <label for="state_Active">Valid:&nbsp;</label>
+    <br>
+    <input type="radio"  value="Not Valid" name="stateFilter"  (change)="onButtonPressed()" [(ngModel)]="stateFilter"/>
+    <label for="state_Active">Not Valid:&nbsp;</label>
+  </div>
+  <div>
+      <label for="quickFilter">Country Filter</label>
+       <input (keyup)="onButtonPressed()" [(ngModel)]="countryFilter" type="text" id="quickFilter"
+             placeholder="Type text to filter..." style="margin-right: 10px"/>
+  </div>
+  
+</div>
+
+<ag-grid-angular style="width: 1000px; height: 350px;" class="ag-theme-balham" [rowData]="customers"
+  [columnDefs]="columnDefs"  [overlayNoRowsTemplate]="noRowsTemplate" 
+  [overlayLoadingTemplate]="loadingTemplate" 
+   >
+</ag-grid-angular>
+
+<div class="card-footer pb-0 pt-3">
+  <ul *ngIf="pager && pager.numberOfPages" class="pagination">
+      <li *ngFor="let page of [].constructor(pager.numberOfPages);let i = index"  [ngClass]="{active:currentPage == i+1}" class="page-item number-item">
+        <a  class="page-link" [routerLink]="" (click)="onGoToPage(i+1)">{{i+1}}</a>
+      </li>
+      
+  </ul>
+</div>

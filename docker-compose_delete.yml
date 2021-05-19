@@ -1,0 +1,20 @@
+version: "3.0"
+
+services:
+  backendserver:
+    container_name: backendserver
+    build:
+      context: ./Jumia/
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+  frontend:
+    container_name: frontend
+    build: ./JumiaUI/
+    links:
+      - "backendserver"
+    depends_on:
+      - "backendserver"
+    ports:
+      - "80:80"

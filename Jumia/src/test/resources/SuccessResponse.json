@@ -1,0 +1,89 @@
+{
+  "customerModelList": [
+    {
+      "id": "10",
+      "name": "Tanvi Sachdeva",
+      "state": "Not Valid",
+      "country": "Mozambique",
+      "countryCode": "+258",
+      "number": "84330678235"
+    },
+    {
+      "id": "11",
+      "name": "Florencio Samuel",
+      "state": "Valid",
+      "country": "Mozambique",
+      "countryCode": "+258",
+      "number": "847602609"
+    },
+    {
+      "id": "12",
+      "name": "Solo Dolo",
+      "state": "Not Valid",
+      "country": "Mozambique",
+      "countryCode": "+258",
+      "number": "042423566"
+    },
+    {
+      "id": "13",
+      "name": "Pedro B 173",
+      "state": "Valid",
+      "country": "Mozambique",
+      "countryCode": "+258",
+      "number": "823747618"
+    },
+    {
+      "id": "14",
+      "name": "Ezequiel Fenias",
+      "state": "Valid",
+      "country": "Mozambique",
+      "countryCode": "+258",
+      "number": "848826725"
+    },
+    {
+      "id": "15",
+      "name": "JACKSON NELLY",
+      "state": "Valid",
+      "country": "Uganda",
+      "countryCode": "+256",
+      "number": "775069443"
+    },
+    {
+      "id": "16",
+      "name": "Kiwanuka Budallah",
+      "state": "Not Valid",
+      "country": "Uganda",
+      "countryCode": "+256",
+      "number": "7503O6263"
+    },
+    {
+      "id": "17",
+      "name": "VINEET SETH",
+      "state": "Valid",
+      "country": "Uganda",
+      "countryCode": "+256",
+      "number": "704244430"
+    },
+    {
+      "id": "18",
+      "name": "Jokkene Richard",
+      "state": "Not Valid",
+      "country": "Uganda",
+      "countryCode": "+256",
+      "number": "7734127498"
+    },
+    {
+      "id": "19",
+      "name": "Ogwal David",
+      "state": "Not Valid",
+      "country": "Uganda",
+      "countryCode": "+256",
+      "number": "7771031454"
+    }
+  ],
+  "pager": {
+    "numberofPages": 5,
+    "totalcount": 0,
+    "totalDiplayedRows": 0
+  }
+}
