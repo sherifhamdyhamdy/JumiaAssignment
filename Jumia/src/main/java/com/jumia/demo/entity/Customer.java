@@ -8,11 +8,29 @@ import javax.persistence.Id;
 
 
 @Entity
-@Getter
-@Setter
+//@Getter
+//@Setter
 public class Customer {
+
+    public Customer() {
+    }
+
+    @Getter
+    @Setter
     @Id
     private int id;
     private String name;
+    @Getter
+    @Setter
     private String phone;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
 }

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class UserService {
+public class CustomerService {
 
     @Autowired
     CustomerReporistory customerReporistory;
@@ -76,7 +76,7 @@ public class UserService {
 
 
     private List<CustomerDto> applyFilter(String country, String state, List<Customer> customerList) {
-        List<CustomerDto> customerDtoModelList = CommonUtils.mapCustomerListToCustomerModelList(customerList).stream()
+        List<CustomerDto> customerDtoModelList = CommonUtils.mapCustomerListToCustomerDtolList(customerList).stream()
                 .filter(!CommonUtils.isEmptyString(country) ?
                         (customerDto -> customerDto.getCountry().toLowerCase().contains(country.toLowerCase())):
                         customerDto -> true)

@@ -66,8 +66,8 @@ class CommonUtilsTest {
         customer.setName("Walid Hammadi");
         customer.setPhone("(212) 6007989253");
         cutomerList.add(customer);
-        List<CustomerDto> customerDtoList = CommonUtils.mapCustomerListToCustomerModelList(cutomerList);
-        assertEquals("123", customerDtoList.get(0).getId());
+        List<CustomerDto> customerDtoList = CommonUtils.mapCustomerListToCustomerDtolList(cutomerList);
+        assertEquals("Walid Hammadi", customerDtoList.get(0).getName());
     }
 
     @Test

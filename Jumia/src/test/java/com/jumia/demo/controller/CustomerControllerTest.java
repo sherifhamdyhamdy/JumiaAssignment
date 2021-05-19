@@ -3,8 +3,7 @@ package com.jumia.demo.controller;
 import com.jumia.demo.model.CustomerDto;
 import com.jumia.demo.model.CustomerResponse;
 import com.jumia.demo.model.Pager;
-import com.jumia.demo.service.UserService;
-import org.junit.Ignore;
+import com.jumia.demo.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +44,7 @@ class CustomerControllerTest {
     @BeforeEach
     void setMockOutput() {
 
-        UserService userService = Mockito.mock(UserService.class);
+        CustomerService customerService = Mockito.mock(CustomerService.class);
         //this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
         CustomerResponse customerResponseTest=new CustomerResponse();
         Pager pager=new Pager();
@@ -62,15 +61,15 @@ class CustomerControllerTest {
         customerDtoList.add(customerDto);
         customerResponseTest.setCustomerDtoList(customerDtoList);
 
-        when(userService.getCustomers(anyString(),anyString(),anyInt())).thenReturn(new CustomerResponse());
+        when(customerService.getCustomers(anyString(),anyString(),anyInt())).thenReturn(new CustomerResponse());
     }
 
     
     @Test
-    void test_getUsers_returnResponse_success() throws Exception {
+    void test_getCustomers_returnResponse_success() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/users"))
+                .get("/customers"))
                // .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.customerDtoList").exists())
@@ -79,11 +78,11 @@ class CustomerControllerTest {
 
 
     @Test
-    void test_getUsers_invalidState_success() throws Exception {
-        UserService userService = Mockito.mock(UserService.class);
-        when(userService.getCustomers(null,"not",3)).thenReturn(new CustomerResponse());
+    void test_getCustomers_invalidState_success() throws Exception {
+        CustomerService customerService = Mockito.mock(CustomerService.class);
+        when(customerService.getCustomers(null,"not",3)).thenReturn(new CustomerResponse());
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/users"))
+                .get("/customers"))
                 // .andDo(print())
                 .andExpect(status().isOk())
                .andExpect(MockMvcResultMatchers.jsonPath("$.customerDtoList").exists())

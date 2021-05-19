@@ -1,7 +1,7 @@
 package com.jumia.demo.controller;
 
 import com.jumia.demo.model.CustomerResponse;
-import com.jumia.demo.service.UserService;
+import com.jumia.demo.service.CustomerService;
 import com.jumia.demo.utils.Constant;
 import com.jumia.demo.validation.ValuesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
 
     @Autowired
-    UserService userService;
+    CustomerService customerService;
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @RequestMapping(value = "users", method = RequestMethod.GET)
+    @RequestMapping(value = "customers", method = RequestMethod.GET)
     public ResponseEntity<CustomerResponse> getCustomers(@RequestParam(required = false) String country,
                                                          @RequestParam(required = false, defaultValue = "All")
                                                      @ValuesAllowed(values = {Constant.ALL,Constant.VALID,Constant.NOT_VALID}) String state,
                                                          @RequestParam(required = false, defaultValue = "1") int page) {
-        CustomerResponse customerResponse = userService.getCustomers(country, state, page);
+        CustomerResponse customerResponse = customerService.getCustomers(country, state, page);
         return new ResponseEntity<CustomerResponse>(customerResponse, HttpStatus.OK);
     }
 }

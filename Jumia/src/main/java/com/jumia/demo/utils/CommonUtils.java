@@ -5,50 +5,54 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.jumia.demo.entity.Customer;
+import com.jumia.demo.mapper.CustomerMapper;
 import com.jumia.demo.model.CustomerDto;
+import org.mapstruct.factory.Mappers;
 
 public class CommonUtils {
     public static final int PHONE_CODE_START_INDEX = 1;
     public static final int PHONE_CODE_END_INDEX = 4;
     public static final int PHONE_NUMBER_START_INDEX = 6;
-	private CommonUtils() {
-		throw new IllegalStateException("Utility class");
-	}
 
-	public static List<CustomerDto> mapCustomerListToCustomerModelList(List<Customer> cutomerList) {
+    private CommonUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    private static CustomerMapper customerMapper
+            = Mappers.getMapper(CustomerMapper.class);
+
+    public static List<CustomerDto> mapCustomerListToCustomerDtolList(List<Customer> cutomerList) {
         List<CustomerDto> customerDtoList = new ArrayList<CustomerDto>();
         cutomerList.stream().forEach((Customer customer) -> {
-            customerDtoList.add(mapCustomerToCustomerModel(customer));
+            customerDtoList.add(mapCustomerToCustomerDto(customer));
         });
 
         return customerDtoList;
     }
 
-    public static CustomerDto mapCustomerToCustomerModel(Customer customer) {
+    public static CustomerDto mapCustomerToCustomerDto(Customer customer) {
         String countryCode = "+" + customer.getPhone().substring(PHONE_CODE_START_INDEX, PHONE_CODE_END_INDEX);
 
-        CustomerDto customerDtoModel = new CustomerDto();
-
+        //CustomerDto customerDto = new CustomerDto();
+        CustomerDto customerDto=customerMapper.CustomerToCustomerDto(customer);
         CountryCodeEnum.stream().filter(d -> d.getCode().equals(countryCode)).forEach((CountryCodeEnum CountryCode) -> {
-            customerDtoModel.setId(Integer.toString(customer.getId()));
-            customerDtoModel.setName(customer.getName());
-            customerDtoModel.setCountryCode(CountryCode.getCode());
-            customerDtoModel.setCountry(CountryCode.getName());
-            customerDtoModel.setNumber(customer.getPhone().substring(PHONE_NUMBER_START_INDEX));
-            customerDtoModel.setState(getState(customer, CountryCode.getReg()));
+
+            customerDto.setCountryCode(CountryCode.getCode());
+            customerDto.setCountry(CountryCode.getName());
+            customerDto.setNumber(customer.getPhone().substring(PHONE_NUMBER_START_INDEX));
+            customerDto.setState(getState(customer, CountryCode.getReg()));
 
         });
 
-        return customerDtoModel;
+        return customerDto;
     }
 
     public static boolean isEmptyString(String paramStr) {
-        if (paramStr == null || paramStr.isEmpty() || paramStr.isBlank()) {
-			return true;
-		}
-        else {
-			return false;
-		}
+        if (!(paramStr != null && !paramStr.isEmpty() && !paramStr.isBlank())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private static String getState(Customer customer, String reg) {

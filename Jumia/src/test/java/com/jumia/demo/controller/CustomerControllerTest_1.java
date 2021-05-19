@@ -6,7 +6,7 @@ import com.jumia.demo.JumiaApplication;
 import com.jumia.demo.model.CustomerDto;
 import com.jumia.demo.model.CustomerResponse;
 import com.jumia.demo.model.Pager;
-import com.jumia.demo.service.UserService;
+import com.jumia.demo.service.CustomerService;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
@@ -36,7 +36,7 @@ public class CustomerControllerTest_1 {
     private CustomerController jumiaController;
 
     @Mock
-    private UserService userService;
+    private CustomerService customerService;
 
     private MockMvc mvc;
 
@@ -63,8 +63,8 @@ public class CustomerControllerTest_1 {
         customerResponseTest.setCustomerDtoList(customerDtoList);
 
         this.mvc = MockMvcBuilders.standaloneSetup(jumiaController).build();
-        when(userService.getCustomers("Morocoo","not",2)).thenReturn(customerResponseTest);
-        MvcResult mvcResult=mvc.perform(get("/users")
+        when(customerService.getCustomers("Morocoo","not",2)).thenReturn(customerResponseTest);
+        MvcResult mvcResult=mvc.perform(get("/customers")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();

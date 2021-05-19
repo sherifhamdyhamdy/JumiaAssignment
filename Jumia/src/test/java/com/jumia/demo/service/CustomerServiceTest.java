@@ -22,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(classes = JumiaApplication.class)
 @RunWith(MockitoJUnitRunner.class)
-class UserServiceTest {
+class CustomerServiceTest {
 
     @InjectMocks
-    UserService userService;
+    CustomerService customerService;
 
     @Mock
     CustomerReporistory customerReporistory;
@@ -40,7 +40,7 @@ class UserServiceTest {
         customerList.add(customer);
         Mockito.when(customerReporistory.findAll()).thenReturn(customerList);
 
-        CustomerResponse customerResponse = userService.getCustomers(null, "All", 1);
+        CustomerResponse customerResponse = customerService.getCustomers(null, "All", 1);
         assertEquals(1, customerResponse.getCustomerDtoList().size());
 
     }
@@ -54,7 +54,7 @@ class UserServiceTest {
         customerList.add(customer);
         Mockito.when(customerReporistory.findAll()).thenReturn(customerList);
 
-        CustomerResponse customerResponse = userService.getCustomers("Morocco", "All", 1);
+        CustomerResponse customerResponse = customerService.getCustomers("Morocco", "All", 1);
         assertEquals("Morocco", customerResponse.getCustomerDtoList().get(0).getCountry());
         assertEquals("+212", customerResponse.getCustomerDtoList().get(0).getCountryCode());
 
@@ -71,7 +71,7 @@ class UserServiceTest {
         customerList.add(customer);
         Mockito.when(customerReporistory.findAll()).thenReturn(customerList);
 
-        CustomerResponse customerResponse = userService.getCustomers(null, "Not Valid", 1);
+        CustomerResponse customerResponse = customerService.getCustomers(null, "Not Valid", 1);
         assertEquals("Morocco", customerResponse.getCustomerDtoList().get(0).getCountry());
         assertEquals("+212", customerResponse.getCustomerDtoList().get(0).getCountryCode());
         assertEquals("Not Valid",customerResponse.getCustomerDtoList().get(0).getState());
@@ -88,7 +88,7 @@ class UserServiceTest {
         customerList.add(customer);
         Mockito.when(customerReporistory.findAll()).thenReturn(customerList);
 
-        CustomerResponse customerResponse = userService.getCustomers("Morocco", "Not Valid", 1);
+        CustomerResponse customerResponse = customerService.getCustomers("Morocco", "Not Valid", 1);
         assertEquals("Morocco", customerResponse.getCustomerDtoList().get(0).getCountry());
         assertEquals("+212", customerResponse.getCustomerDtoList().get(0).getCountryCode());
         assertEquals("Not Valid",customerResponse.getCustomerDtoList().get(0).getState());
@@ -97,9 +97,9 @@ class UserServiceTest {
 
     @Test
     void test_getEndIndex_indexMoreThanCustomerDtoList_success() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        UserService obj = new UserService();
+        CustomerService obj = new CustomerService();
         List<CustomerDto> customerDtoList=new ArrayList<>();
-        Method privateMethod = UserService.class.getDeclaredMethod("getEndIndex",int.class,int.class,List.class);
+        Method privateMethod = CustomerService.class.getDeclaredMethod("getEndIndex",int.class,int.class,List.class);
         privateMethod.setAccessible(true);
         int returnValue = (int) privateMethod.invoke(obj, 2,2,customerDtoList);
         assertEquals(0,customerDtoList.size());

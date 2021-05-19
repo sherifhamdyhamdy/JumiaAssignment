@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Customer } from './customer';
 
 
-const customerLocalUrl = 'http://localhost:8080/users';
+const customerLocalUrl = 'http://localhost:8080/customers';
 
 @Injectable({
   providedIn: 'root'
