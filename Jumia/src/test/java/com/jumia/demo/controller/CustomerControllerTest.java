@@ -1,92 +1,72 @@
 package com.jumia.demo.controller;
 
-import com.jumia.demo.model.CustomerDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jumia.demo.error.CustomGlobalExceptionHandler;
 import com.jumia.demo.model.CustomerResponse;
-import com.jumia.demo.model.Pager;
 import com.jumia.demo.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.when;
+import static com.jumia.demo.utils.TestUtil.getCustomerResponseObj;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-class CustomerControllerTest {
+@ExtendWith(MockitoExtension.class)
+public class CustomerControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+    private MockMvc mvc;
 
-    //@MockBean
-    //private UserService userService;
-    //@Mock
-    ///private UserService userService;
-    //@InjectMocks
-    //private UserService userService;
-   // @Autowired
-    //private WebApplicationContext context;
+    @Mock
+    private CustomerService customerService;
+
+    @InjectMocks
+    private CustomerController customerController;
+
+    private JacksonTester<CustomerResponse> customerResponse;
+
     @BeforeEach
-    void setMockOutput() {
-
-        CustomerService customerService = Mockito.mock(CustomerService.class);
-        //this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
-        CustomerResponse customerResponseTest=new CustomerResponse();
-        Pager pager=new Pager();
-        pager.setNumberOfPages(4);
-        customerResponseTest.setPager(pager);
-
-        List<CustomerDto> customerDtoList=new ArrayList<CustomerDto>();
-        CustomerDto customerDto=new CustomerDto();
-        customerDto.setCountry("Moracco");
-        customerDto.setCountryCode("002");
-        customerDto.setName("Sherif");
-        customerDto.setNumber("123");
-        customerDto.setState("Valid");
-        customerDtoList.add(customerDto);
-        customerResponseTest.setCustomerDtoList(customerDtoList);
-
-        when(customerService.getCustomers(anyString(),anyString(),anyInt())).thenReturn(new CustomerResponse());
+    public void setup() {
+        JacksonTester.initFields(this, new ObjectMapper());
+        mvc = MockMvcBuilders.standaloneSetup(customerController)
+                .setControllerAdvice(new CustomGlobalExceptionHandler())
+                .build();
     }
-
-    
-    @Test
-    void test_getCustomers_returnResponse_success() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .get("/customers"))
-               // .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.customerDtoList").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.pager").exists());
-    }
-
 
     @Test
-    void test_getCustomers_invalidState_success() throws Exception {
-        CustomerService customerService = Mockito.mock(CustomerService.class);
-        when(customerService.getCustomers(null,"not",3)).thenReturn(new CustomerResponse());
-        mockMvc.perform(MockMvcRequestBuilders
-                .get("/customers"))
-                // .andDo(print())
-                .andExpect(status().isOk())
-               .andExpect(MockMvcResultMatchers.jsonPath("$.customerDtoList").exists())
-               .andExpect(MockMvcResultMatchers.jsonPath("$.pager").exists());
+    public void canRetrieveByIdWhenExists() throws Exception {
+        given(customerService.getCustomers(null, "All", 1)).willReturn(getCustomerResponseObj());
+        MockHttpServletResponse response = mvc.perform(
+                get("/customers")
+                .accept(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getContentAsString()).isEqualTo(customerResponse.write(getCustomerResponseObj()).getJson());
     }
+
+    @Test
+    public void test_getCustomers_wrongState_failed() throws Exception {
+        MockHttpServletResponse response = mvc.perform(
+                get("/customers/?state=mmm")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andReturn()
+                .getResponse();
+
+        assertThat(response.getContentAsString()).isEqualTo("");
+    }
+
 
 }

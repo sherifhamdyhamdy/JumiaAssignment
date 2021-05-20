@@ -11,7 +11,7 @@ Angular application to list all users with state of phone number of each user, A
 
 ## Getting Started
 
-###BackEnd
+### BackEnd
 * open the application folder (Jumia)
 * open terminal on the application folder (Jumia)
 * run the following commands:
@@ -24,7 +24,7 @@ docker build -t jumia .
 docker run -d -p 8080:8080 -t jumia 
 ```
 
-###FrontEnd
+### FrontEnd
 * open the application folder (JumiaUI)
 * open terminal on the application folder (JumiaUI)
 * run the following commands:
@@ -37,7 +37,7 @@ docker run -d -p 80:80 jumia-ui
 
 ### Prerequisites
 
-####BackEnd
+#### BackEnd
 * Java 11
 * Spring Boot
 * SQlite 
@@ -49,7 +49,7 @@ docker run -d -p 80:80 jumia-ui
 * Docker
 * SonarLint
 
-####FrontEnd
+#### FrontEnd
 * Node v14
 * Angular v11
 
