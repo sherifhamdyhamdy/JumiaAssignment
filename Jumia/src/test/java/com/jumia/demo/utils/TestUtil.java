@@ -53,4 +53,15 @@ public class TestUtil {
         customer.setPhone("(212) 698054317");
         return customer;
     }
+
+    public static List<CustomerDto> getCustomerDtoList() {
+        List<CustomerDto> customerDtoList = new ArrayList<CustomerDto>();
+        CustomerDto customerDto = new CustomerDto();
+        customerDto.setCountry("Moracco");
+        customerDto.setCountryCode("002");
+        customerDto.setName("Sherif");
+        customerDto.setNumber("123");
+        customerDto.setState("Valid");
+        return customerDtoList;
+    }
 }

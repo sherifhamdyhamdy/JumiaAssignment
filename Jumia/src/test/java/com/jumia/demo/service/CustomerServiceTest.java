@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.jumia.demo.utils.TestUtil.getCustomerDtoList;
 import static com.jumia.demo.utils.TestUtil.getCustomerList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -78,7 +79,7 @@ class CustomerServiceTest {
         List<CustomerDto> customerDtoList = new ArrayList<>();
         Method privateMethod = CustomerService.class.getDeclaredMethod("getEndIndex", int.class, int.class, List.class);
         privateMethod.setAccessible(true);
-
-        assertEquals(0, customerDtoList.size());
+        int index=(int)privateMethod.invoke(obj,1,1,customerDtoList);
+        assertEquals(0, index);
     }
 }

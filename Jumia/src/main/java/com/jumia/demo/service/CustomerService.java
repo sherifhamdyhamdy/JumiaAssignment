@@ -58,11 +58,18 @@ public class CustomerService {
 
 
     private CustomerResponse getCustomerResponse(List<CustomerDto> customerDtoList, int pageNumber, CustomerResponse customerRes) {
+        customerRes.setCustomerDtoList(customerDtoList);
+        customerRes.setPager(fillPager(customerDtoList, pageNumber));
+        return customerRes;
+    }
+
+
+    private Pager fillPager(List<CustomerDto> customerDtoList, int pageNumber) {
         Pager pager = new Pager();
         pager.setNumberOfPages(pageNumber);
-        customerRes.setCustomerDtoList(customerDtoList);
-        customerRes.setPager(pager);
-        return customerRes;
+        pager.setTotalCount(customerDtoList !=null? customerDtoList.size():0);
+        pager.setTotalDisplayedRows(10);
+        return pager;
     }
 
     private int getEndIndex(int page, int numberOfRowsPerPage, List<CustomerDto> customerDtoList) {

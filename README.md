@@ -1,14 +1,11 @@
 # Jumia Country Code Validation
-This project contains of two application one for frontend and second for backend
 
 
 #### BackEnd:
 Spring Boot Application to retrieve data from SQLite 3 and apply filter(Country/State) and pagination
 
 #### FrontEnd:
-Angular application to list all users with state of phone number of each user, Application can filter by country, state and pagination feature is allowed 
-
-
+Angular application to list all customers that retroved from backend 
 ## Getting Started
 
 ### BackEnd
@@ -30,6 +27,7 @@ docker run -d -p 8080:8080 -t jumia
 * run the following commands:
 
 ```
+ng build --prod --aot
 docker build -t jumia-ui .
 docker run -d -p 80:80 jumia-ui 
 ```
