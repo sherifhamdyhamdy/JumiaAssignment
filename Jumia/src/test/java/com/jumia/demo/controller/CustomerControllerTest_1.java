@@ -8,6 +8,7 @@ import com.jumia.demo.model.CustomerResponse;
 import com.jumia.demo.model.Pager;
 import com.jumia.demo.service.CustomerService;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -71,8 +72,8 @@ public class CustomerControllerTest_1 {
 
         String contentAsString=mvcResult.getResponse().getContentAsString();
         System.out.println("sss="+contentAsString);
-        //customerMockList=mapFromJson(contentAsString,List.class);
-        //Assertions.assertEquals(customerMockList.size(),0);
+        CustomerResponse customerMockList = mapFromJson(contentAsString, CustomerResponse.class);
+        Assertions.assertEquals(customerMockList.getPager().getNumberOfPages(),4);
     }
 
     private <T> T mapFromJson(String json, Class<T> clazz) throws IOException {

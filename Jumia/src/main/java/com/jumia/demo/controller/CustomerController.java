@@ -20,6 +20,7 @@ public class CustomerController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "customers", method = RequestMethod.GET)
+
     public ResponseEntity<CustomerResponse> getCustomers(@RequestParam(required = false) String country,
                                                          @RequestParam(required = false, defaultValue = "All")
                                                      @ValuesAllowed(values = {Constant.ALL,Constant.VALID,Constant.NOT_VALID}) String state,
