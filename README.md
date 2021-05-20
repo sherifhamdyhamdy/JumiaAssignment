@@ -1,10 +1,13 @@
 # Jumia Country Code Validation
 
 
-#### BackEnd:
+#### BackEnd
 Spring Boot Application to retrieve data from SQLite 3 and apply filter(Country/State) and pagination
 
-#### FrontEnd:
+Code Cavarge is more than 90%
+![Alt text](Jacoco_Report.PNG?raw=true "Title")
+
+#### FrontEnd
 Angular application to list all customers that retroved from backend 
 ## Getting Started
 
