@@ -3,8 +3,6 @@ package com.jumia.demo.model;
 import lombok.Getter;
 import lombok.Setter;
 
-//@Getter
-//@Setter
 public class CustomerDto {
 	public CustomerDto() {
 	}

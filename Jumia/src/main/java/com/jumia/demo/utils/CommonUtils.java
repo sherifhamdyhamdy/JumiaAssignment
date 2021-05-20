@@ -33,7 +33,6 @@ public class CommonUtils {
     public static CustomerDto mapCustomerToCustomerDto(Customer customer) {
         String countryCode = "+" + customer.getPhone().substring(PHONE_CODE_START_INDEX, PHONE_CODE_END_INDEX);
 
-        //CustomerDto customerDto = new CustomerDto();
         CustomerDto customerDto=customerMapper.CustomerToCustomerDto(customer);
         CountryCodeEnum.stream().filter(d -> d.getCode().equals(countryCode)).forEach((CountryCodeEnum CountryCode) -> {
 

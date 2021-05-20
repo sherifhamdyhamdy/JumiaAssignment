@@ -10,25 +10,28 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.jumia.demo.utils.TestUtil.getCustomerDtoList;
 import static com.jumia.demo.utils.TestUtil.getCustomerList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(classes = JumiaApplication.class)
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
 class CustomerServiceTest {
 
-    @InjectMocks
+    @Autowired
     CustomerService customerService;
 
-    @Mock
+    @MockBean
     CustomerReporistory customerReporistory;
 
     @Test

@@ -7,6 +7,7 @@ import com.jumia.demo.model.Pager;
 import com.jumia.demo.repository.CustomerReporistory;
 import com.jumia.demo.utils.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,20 +21,20 @@ public class CustomerService {
     @Autowired
     CustomerReporistory customerReporistory;
 
+
+    @Value("#{new Integer('${app.numberOfRowsPerPage}')}")
+    private Integer numberOfRowsPerPage;
+
     public CustomerResponse getCustomers(String country, String state, int page) {
-        System.out.println("getCustomers called="+country+", "+state+", "+page);
         CustomerResponse customerResponses = new CustomerResponse();
         List<CustomerDto> customerDtoModelList = new ArrayList<CustomerDto>();
         List<Customer> customerList = customerReporistory.findAll();
-        System.out.println("customerList.size="+customerList.size());
         customerDtoModelList = applyFilter(country, state, customerList);
-        System.out.println("customerDtoModelList.size="+customerDtoModelList.size());
         applyPagination(customerDtoModelList, page, customerResponses);
         return customerResponses;
     }
 
     private CustomerResponse applyPagination(List<CustomerDto> customerDtoList, int page, CustomerResponse customerRes) {
-        int numberOfRowsPerPage = 10;
         int pageNumber = 1;
         if (customerDtoList.size() <= numberOfRowsPerPage) {
             return getCustomerResponse(customerDtoList, pageNumber, customerRes);
@@ -68,7 +69,7 @@ public class CustomerService {
         Pager pager = new Pager();
         pager.setNumberOfPages(pageNumber);
         pager.setTotalCount(customerDtoList !=null? customerDtoList.size():0);
-        pager.setTotalDisplayedRows(10);
+        pager.setTotalDisplayedRows(numberOfRowsPerPage);
         return pager;
     }
 

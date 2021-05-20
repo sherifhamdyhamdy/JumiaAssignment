@@ -8,8 +8,6 @@ import javax.persistence.Id;
 
 
 @Entity
-//@Getter
-//@Setter
 public class Customer {
 
     public Customer() {
