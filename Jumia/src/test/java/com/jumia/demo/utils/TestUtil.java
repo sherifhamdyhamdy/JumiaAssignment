@@ -12,9 +12,8 @@ public class TestUtil {
 
     public static CustomerResponse getCustomerResponseObj() {
         CustomerResponse customerResponseTest = new CustomerResponse();
-        Pager pager = new Pager();
-        pager.setNumberOfPages(4);
-        customerResponseTest.setPager(pager);
+
+
 
         List<CustomerDto> customerDtoList = new ArrayList<CustomerDto>();
         CustomerDto customerDto = new CustomerDto();
@@ -25,6 +24,12 @@ public class TestUtil {
         customerDto.setState("Valid");
         customerDtoList.add(customerDto);
         customerResponseTest.setCustomerDtoList(customerDtoList);
+
+        Pager pager = new Pager();
+        pager.setTotalCount(0);
+        pager.setNumberOfPages(4);
+        pager.setTotalDisplayedRows(0);
+        customerResponseTest.setPager(pager);
         return customerResponseTest;
     }
 
@@ -62,6 +67,7 @@ public class TestUtil {
         customerDto.setName("Sherif");
         customerDto.setNumber("123");
         customerDto.setState("Valid");
+        customerDtoList.add(customerDto);
         return customerDtoList;
     }
 }

@@ -1,5 +1,6 @@
 package com.jumia.demo.service;
 
+import com.jumia.demo.config.AppConfiguration;
 import com.jumia.demo.entity.Customer;
 import com.jumia.demo.model.CustomerDto;
 import com.jumia.demo.model.CustomerResponse;
@@ -22,8 +23,16 @@ public class CustomerService {
     CustomerReporistory customerReporistory;
 
 
-    @Value("#{new Integer('${app.numberOfRowsPerPage}')}")
-    private Integer numberOfRowsPerPage;
+    AppConfiguration appConfiguration;
+
+    @Autowired
+    public CustomerService(AppConfiguration appConfiguration) {
+        this.appConfiguration = appConfiguration;
+    }
+
+
+/*@Value("#{new Integer('${app.numberOfRowsPerPage}')}")
+    private Integer numberOfRowsPerPage;*/
 
     public CustomerResponse getCustomers(String country, String state, int page) {
         CustomerResponse customerResponses = new CustomerResponse();
@@ -36,14 +45,14 @@ public class CustomerService {
 
     private CustomerResponse applyPagination(List<CustomerDto> customerDtoList, int page, CustomerResponse customerRes) {
         int pageNumber = 1;
-        if (customerDtoList.size() <= numberOfRowsPerPage) {
+        if (customerDtoList.size() <= appConfiguration.getNumberOfRowsPerPage()) {
             return getCustomerResponse(customerDtoList, pageNumber, customerRes);
         }
 
-        List<CustomerDto> customerDtoListFinal = sliceCustomerModelList(customerDtoList, page, numberOfRowsPerPage);
+        List<CustomerDto> customerDtoListFinal = sliceCustomerModelList(customerDtoList, page, appConfiguration.getNumberOfRowsPerPage());
 
 
-        pageNumber = (int) Math.ceil((float) customerDtoList.size() / numberOfRowsPerPage);
+        pageNumber = (int) Math.ceil((float) customerDtoList.size() / appConfiguration.getNumberOfRowsPerPage());
 
         return getCustomerResponse(customerDtoListFinal, pageNumber, customerRes);
     }
@@ -66,15 +75,17 @@ public class CustomerService {
 
 
     private Pager fillPager(List<CustomerDto> customerDtoList, int pageNumber) {
+        System.out.println("customerDtoList.size()=="+customerDtoList.size());
+        System.out.println("appConfiguration.getNumberOfRowsPerPage()=="+appConfiguration.getNumberOfRowsPerPage());
         Pager pager = new Pager();
         pager.setNumberOfPages(pageNumber);
         pager.setTotalCount(customerDtoList !=null? customerDtoList.size():0);
-        pager.setTotalDisplayedRows(numberOfRowsPerPage);
+        pager.setTotalDisplayedRows(appConfiguration.getNumberOfRowsPerPage());
         return pager;
     }
 
     private int getEndIndex(int page, int numberOfRowsPerPage, List<CustomerDto> customerDtoList) {
-        int index = numberOfRowsPerPage * page;
+        int index = appConfiguration.getNumberOfRowsPerPage() * page;
         if (index > customerDtoList.size()) {
             return customerDtoList.size();
         }
